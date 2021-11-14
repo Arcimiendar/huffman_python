@@ -29,10 +29,15 @@ def unzip_content(content: bytes, unzip_table: dict[str, str], tail: bytes, cont
 
 
 def decode(source: BinaryIO, destination: BinaryIO):
-    conversation_table, content, tail, content_length = FileModel.read_from_file(source)
+    source_content = source.read()
+    if len(source_content) == 0:
+        return
+    conversation_table, content, tail, content_length = FileModel.read_from_bytes(source_content)
     unzip_table = {
         value: key for key, value in conversation_table.items()
     }
+    print(unzip_table)
     raw_content = unzip_content(content, unzip_table, tail, content_length)
+    print(raw_content)
     destination.write(raw_content)
 

@@ -36,6 +36,8 @@ class Node:
             raise ValueError('build a tree first or use on subnodes!')
         initial_slug = self.slug
         parent = self.parent
+        if parent is None:
+            parent = self
         while parent.parent is not None:
             initial_slug += parent.slug
             parent = parent.parent
@@ -43,6 +45,8 @@ class Node:
 
 
 def build_tree(nodes: list[Node]) -> Node:
+    if len(nodes) == 1:
+        nodes[0].slug = '0'
     while len(nodes) > 1:
         nodes.sort(key=lambda node: -node.frequency)
         least_frequent_1 = nodes.pop()
@@ -86,9 +90,9 @@ def code(source: BinaryIO, destination: BinaryIO, wordbits: int):
     if len(source_content) == 0:
         return
     frequencies, tail = get_frequencies_and_tail(source_content, wordbits)
+    print(frequencies)
     conversation_table = build_conversation(frequencies)
+    print(conversation_table)
     compressed_content, content_length = compress_content(source_content, wordbits, conversation_table)
+    print(compressed_content[:1000])
     FileModel.write_to_file(destination, tail, compressed_content, conversation_table, content_length)
-
-    print(source_content, compressed_content)
-    print(tail)

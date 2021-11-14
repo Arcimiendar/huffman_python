@@ -39,8 +39,7 @@ class FileModel:
         model.write_to(io_like)
 
     @classmethod
-    def read_from_file(cls, io_like: BinaryIO) -> tuple[dict[str, str], bytes, bytes, int]:
-        content = io_like.read()
+    def read_from_bytes(cls, content: bytes) -> tuple[dict[str, str], bytes, bytes, int]:
         model = FileModel()
         return model.read_from(content)
 
