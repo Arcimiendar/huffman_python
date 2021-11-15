@@ -51,7 +51,10 @@ class FileModel:
         self.content, rest = FileCell.read_from_bytes(rest)
         tail_serialized, _ = FileCell.read_from_bytes(rest)
         tail_length, = struct.unpack('>I', tail_serialized[:4])
-        self.tail = BitReadStream(tail_serialized[4:]).read(tail_length)
+        if tail_length == 0:
+            self.tail = ''
+        else:
+            self.tail = BitReadStream(tail_serialized[4:]).read(tail_length)
 
         return self.conversation_table, self.content, self.tail, self.content_length
 
