@@ -36,8 +36,8 @@ def decode(source: BinaryIO, destination: BinaryIO):
     unzip_table = {
         value: key for key, value in conversation_table.items()
     }
-    print(unzip_table)
+    print(str(unzip_table)[:100_000])
     raw_content = unzip_content(content, unzip_table, tail, content_length)
-    print(raw_content)
+    print(str(raw_content)[:1000])
     destination.write(raw_content)
 

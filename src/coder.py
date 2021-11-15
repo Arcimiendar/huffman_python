@@ -90,9 +90,9 @@ def code(source: BinaryIO, destination: BinaryIO, wordbits: int):
     if len(source_content) == 0:
         return
     frequencies, tail = get_frequencies_and_tail(source_content, wordbits)
-    print(frequencies)
+    print(str(frequencies)[:100_000])
     conversation_table = build_conversation(frequencies)
-    print(conversation_table)
+    print(str(conversation_table)[:100_000])
     compressed_content, content_length = compress_content(source_content, wordbits, conversation_table)
     print(compressed_content[:1000])
     FileModel.write_to_file(destination, tail, compressed_content, conversation_table, content_length)
